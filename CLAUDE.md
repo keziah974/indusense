@@ -1,0 +1,27 @@
+# CLAUDE.md — InduSense
+
+Projet pédagogique (formation « Concevoir et implémenter une solution d'IA »). InduSense 4.0 :
+données industrielles (télémétrie machines, relevés d'incidents, référentiel machines).
+
+## Stack
+- Python **3.15** géré par **uv** (`.python-version`, `pyproject.toml`)
+- pandas, Jupyter (ipykernel en dépendance dev), notebooks ouverts dans VS Code
+- Ajouter une dépendance : `uv add <pkg>` (dev : `uv add --dev <pkg>`). Jamais `pip install`.
+- Lancer du code : `uv run python ...`
+
+## Structure
+- `datas/` : fichiers sources (CSV, SQL). **Non versionné** (repo public).
+- `*.ipynb` : notebooks à la racine, au même niveau que `datas/`
+- `artifacts/ingestion/identities/AAAAMMJJ/<fichier>_HHMMSS.md` : cartes d'identité générées
+
+## Sprint 1 — cartes d'identité des CSV
+Pour chaque CSV : source, taille (Ko/Mo), ProcessBeginAt/EndAt, charset, nb lignes/colonnes,
+tableau colonnes + type inféré, et min/max (+ mean/median si numérique) pour colonnes numériques et dates.
+- Le séparateur n'est pas toujours `,` (`;`, `\t`) → le détecter.
+- Le script SQL (`machine.sql.txt`) est traité dans un incrément ultérieur.
+
+## Conventions
+- Ne pas faire plus que ce qui est demandé, mais pas moins.
+- Code factorisé en fonctions dans le notebook.
+- Git : jamais de travail direct sur `main`. Une branche par incrément (`feat/...`),
+  commits fréquents avec messages explicites, merge dans `main` puis push de `main`.
