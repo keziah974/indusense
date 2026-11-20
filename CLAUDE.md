@@ -10,7 +10,9 @@ données industrielles (télémétrie machines, relevés d'incidents, référent
 - Lancer du code : `uv run python ...`
 
 ## Structure
-- `datas/` : fichiers sources (CSV, SQL). **Non versionné** (repo public).
+- `datas/` : fichiers sources (CSV, SQL), **couche Bronze : données brutes immuables**.
+  Lecture seule : ne jamais modifier, nettoyer, renommer ni réécrire ces fichiers.
+  Tout résultat va dans `artifacts/`. **Non versionné** (repo public).
 - `*.ipynb` : notebooks à la racine, au même niveau que `datas/`
 - `artifacts/ingestion/identities/AAAAMMJJ/<fichier>_HHMMSS.md` : cartes d'identité générées
 
