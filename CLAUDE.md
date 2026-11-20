@@ -21,7 +21,8 @@ données industrielles (télémétrie machines, relevés d'incidents, référent
 Pour chaque CSV : source, taille (Ko/Mo), ProcessBeginAt/EndAt, charset, nb lignes/colonnes,
 tableau colonnes + type inféré, et min/max (+ mean/median si numérique) pour colonnes numériques et dates.
 - Le séparateur n'est pas toujours `,` (`;`, `\t`) → le détecter.
-- Le script SQL (`machine.sql.txt`) est traité dans un incrément ultérieur.
+- Le script SQL (`machine.sql.txt`) est lu avec **sqlglot** (dialecte postgres, jamais exécuté) :
+  une seule carte pour le fichier, une section par table (types déclarés du CREATE TABLE, valeurs des INSERT).
 
 ## Conventions
 - Ne pas faire plus que ce qui est demandé, mais pas moins.
