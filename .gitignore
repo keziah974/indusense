@@ -13,5 +13,5 @@ wheels/
 .ipynb_checkpoints/
 .DS_Store
 
-# Données sources : repo public, on ne les publie pas
-datas/
+# Cartes générées : recréées en lançant le notebook
+artifacts/

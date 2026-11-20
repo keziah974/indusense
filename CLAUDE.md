@@ -12,9 +12,10 @@ données industrielles (télémétrie machines, relevés d'incidents, référent
 ## Structure
 - `datas/` : fichiers sources (CSV, SQL), **couche Bronze : données brutes immuables**.
   Lecture seule : ne jamais modifier, nettoyer, renommer ni réécrire ces fichiers.
-  Tout résultat va dans `artifacts/`. **Non versionné** (repo public).
+  Tout résultat va dans `artifacts/`. **Versionné** : le formateur clone et relance le notebook.
 - `*.ipynb` : notebooks à la racine, au même niveau que `datas/`
 - `artifacts/ingestion/identities/AAAAMMJJ/<fichier>_HHMMSS.md` : cartes d'identité générées
+  (**non versionné**, recréé par le notebook)
 
 ## Sprint 1 — cartes d'identité des CSV
 Pour chaque CSV : source, taille (Ko/Mo), ProcessBeginAt/EndAt, charset, nb lignes/colonnes,
@@ -27,3 +28,4 @@ tableau colonnes + type inféré, et min/max (+ mean/median si numérique) pour 
 - Code factorisé en fonctions dans le notebook.
 - Git : jamais de travail direct sur `main`. Une branche par incrément (`feat/...`),
   commits fréquents avec messages explicites, merge dans `main` puis push de `main`.
+- Commits au nom de l'utilisateur uniquement : pas de ligne `Co-Authored-By`.
