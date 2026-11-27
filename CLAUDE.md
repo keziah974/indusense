@@ -8,6 +8,10 @@ données industrielles (télémétrie machines, relevés d'incidents, référent
 - pandas, Jupyter (ipykernel en dépendance dev), notebooks ouverts dans VS Code
 - Ajouter une dépendance : `uv add <pkg>` (dev : `uv add --dev <pkg>`). Jamais `pip install`.
 - Lancer du code : `uv run python ...`
+- PostgreSQL 15 + pgAdmin via `docker compose up -d db admin` (seuls services utilisés ;
+  Prometheus/Grafana du compose ne sont pas lancés). Base sur `localhost:5434`, pgAdmin sur `localhost:8081`.
+- Connexion Python : SQLAlchemy + psycopg 3, variables lues dans `.env` avec python-dotenv.
+- `.env` (créé depuis `env.sample`) contient le sel `ANONYMISATION_SALT` : **jamais versionné**, jamais affiché.
 
 ## Structure
 - `datas/` : fichiers sources (CSV, SQL), **couche Bronze : données brutes immuables**.
