@@ -18,6 +18,9 @@ données industrielles (télémétrie machines, relevés d'incidents, référent
   Lecture seule : ne jamais modifier, nettoyer, renommer ni réécrire ces fichiers.
   Tout résultat va dans `artifacts/`. **Versionné** : le formateur clone et relance le notebook.
 - `*.ipynb` : notebooks à la racine, au même niveau que `datas/`
+- `src/indusense/profiling.py` : fonctions de lecture et de typage partagées par les notebooks
+  (`detect_charset`, `detect_separator`, `infer_type`, `sql_column_type`, `parse_sql_tables`).
+  Installé en mode éditable par `uv sync` : après une modification, redémarrer le kernel du notebook.
 - `artifacts/ingestion/identities/AAAAMMJJ/<fichier>_HHMMSS.md` : cartes d'identité générées
   (**non versionné**, recréé par le notebook)
 
@@ -30,7 +33,7 @@ tableau colonnes + type inféré, et min/max (+ mean/median si numérique) pour 
 
 ## Conventions
 - Ne pas faire plus que ce qui est demandé, mais pas moins.
-- Code factorisé en fonctions dans le notebook.
+- Code factorisé en fonctions dans le notebook ; ce qui sert à plusieurs notebooks va dans `src/indusense/`.
 - Git : jamais de travail direct sur `main`. Une branche par incrément (`feat/...`),
   commits fréquents avec messages explicites, merge dans `main` puis push de `main`.
 - Commits au nom de l'utilisateur uniquement : pas de ligne `Co-Authored-By`.
