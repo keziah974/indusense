@@ -15,3 +15,6 @@ wheels/
 
 # Cartes générées : recréées en lançant le notebook
 artifacts/
+
+# Configuration locale : contient le sel d'anonymisation, jamais versionné
+.env
