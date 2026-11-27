@@ -2,7 +2,7 @@
 
 - detect_charset, detect_separator : encodage et séparateur d'un fichier
 - infer_type : type d'une colonne CSV, deviné à partir des valeurs
-- sql_column_type, parse_sql_tables : types déclarés et données d'un script SQL (lu avec sqlglot, jamais exécuté)
+- sql_column_type, raw_sql_value, parse_sql_tables : types déclarés et données d'un script SQL (lu avec sqlglot, jamais exécuté)
 """
 import csv
 from pathlib import Path
@@ -68,8 +68,19 @@ def sql_column_type(col):
     return SQL_TYPES.get(col.kind.this.name, "TEXT")
 
 
-def parse_sql_tables(sql_text):
-    """{table: (DataFrame des INSERT, {colonne: type})} à partir d'un script PostgreSQL (lu, jamais exécuté)."""
+def raw_sql_value(value):
+    """Valeur d'un INSERT telle qu'écrite dans le script (texte, sans conversion), None pour NULL."""
+    if isinstance(value, exp.Null):
+        return None
+    return value.this if isinstance(value, exp.Literal) else value.sql(dialect="postgres")
+
+
+def parse_sql_tables(sql_text, raw=False):
+    """{table: (DataFrame des INSERT, {colonne: type})} à partir d'un script PostgreSQL (lu, jamais exécuté).
+
+    raw=True garde les valeurs en texte, telles qu'écrites dans le script (pour le Bronze).
+    """
+    convert = raw_sql_value if raw else (lambda v: v.to_py())
     types, rows = {}, {}
     for stmt in sqlglot.parse(sql_text, read="postgres"):
         if isinstance(stmt, exp.Create) and stmt.kind == "TABLE":
@@ -79,5 +90,5 @@ def parse_sql_tables(sql_text):
         elif isinstance(stmt, exp.Insert):
             name = stmt.this.this.name
             cols = [c.name for c in stmt.this.expressions]
-            rows[name] += [dict(zip(cols, (v.to_py() for v in row.expressions))) for row in stmt.expression.expressions]
+            rows[name] += [dict(zip(cols, (convert(v) for v in row.expressions))) for row in stmt.expression.expressions]
     return {name: (pd.DataFrame(rows[name]), types[name]) for name in types}
